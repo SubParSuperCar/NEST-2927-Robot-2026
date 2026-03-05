@@ -13,14 +13,17 @@ public class IntakeSubsystem extends SubsystemBase {
     private final TalonFX intakeMotor1 = new TalonFX(20); // ← Set your CAN ID here
     // Control request (open-loop percent output, -1.0 to 1.0)
     private final DutyCycleOut motorRequest = new DutyCycleOut(0);
+
     // --- Intake In ---
     public void intakeIn() {
         intakeMotor1.setControl(motorRequest.withOutput(0.75)); // 75% forward
     }
+    
     // --- Intake Out (eject) ---
     public void intakeOut() {
         intakeMotor1.setControl(motorRequest.withOutput(-0.75)); // 75% reverse
     }
+
     // --- Stop ---
     public void stop() {
         intakeMotor1.setControl(motorRequest.withOutput(0));
