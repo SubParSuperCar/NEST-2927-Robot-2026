@@ -10,7 +10,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
     // --- Motor declarations ---
     // Add more TalonFX objects here if you have multiple intake motors
-    private final TalonFX intakeMotor1 = new TalonFX(20); // ← Set your CAN ID here
+    private final TalonFX intakeMotor1 = new TalonFX(20);
     // Control request (open-loop percent output, -1.0 to 1.0)
     private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
