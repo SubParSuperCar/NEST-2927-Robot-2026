@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
-    
+
     // --- Motor declarations ---
     // Add more TalonFX objects here if you have multiple intake motors
     private final TalonFX intakeMotor1 = new TalonFX(20);
+    
     // Control request (open-loop percent output, -1.0 to 1.0)
     private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
