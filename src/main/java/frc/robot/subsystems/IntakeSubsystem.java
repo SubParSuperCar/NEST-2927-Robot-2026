@@ -7,26 +7,29 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
+    private final TalonFX intakeMotor = new TalonFX(20);
+    private final TalonFX deployMotor = new TalonFX(99); // ← placeholder CAN ID
 
-    // --- Motor declarations ---
-    // Add more TalonFX objects here if you have multiple intake motors
-    private final TalonFX intakeMotor1 = new TalonFX(20);
-    
-    // Control request (open-loop percent output, -1.0 to 1.0)
     private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
-    // --- Intake In ---
     public void intakeIn() {
-        intakeMotor1.setControl(motorRequest.withOutput(0.75)); // 75% forward
-    }
-    
-    // --- Intake Out (eject) ---
-    public void intakeOut() {
-        intakeMotor1.setControl(motorRequest.withOutput(-0.75)); // 75% reverse
+        intakeMotor.setControl(motorRequest.withOutput(0.75));
     }
 
-    // --- Stop ---
+    public void intakeOut() {
+        intakeMotor.setControl(motorRequest.withOutput(-0.75));
+    }
+
     public void stop() {
-        intakeMotor1.setControl(motorRequest.withOutput(0));
+        intakeMotor.setControl(motorRequest.withOutput(0));
+    }
+
+    // --- Deploy motor methods ---
+    public void deployOn() {
+        deployMotor.setControl(motorRequest.withOutput(0.75));
+    }
+
+    public void deployOff() {
+        deployMotor.setControl(motorRequest.withOutput(0));
     }
 }
