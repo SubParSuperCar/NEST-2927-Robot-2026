@@ -9,14 +9,14 @@ public class FuelShooter extends SubsystemBase {
 
     // ── Placeholder CAN IDs ─────────────────────────────────────────────────
     // TODO: Replace with actual CAN IDs from Tuner X
-    private static final int LEFT_MOTOR_1_ID  = 20;
-    private static final int LEFT_MOTOR_2_ID  = 21;
+    private static final int LEFT_MOTOR_1_ID = 20;
+    private static final int LEFT_MOTOR_2_ID = 21;
     private static final int RIGHT_MOTOR_1_ID = 22;
     private static final int RIGHT_MOTOR_2_ID = 23;
 
     // ── Motors ───────────────────────────────────────────────────────────────
-    private final TalonFX leftMotor1  = new TalonFX(LEFT_MOTOR_1_ID);
-    private final TalonFX leftMotor2  = new TalonFX(LEFT_MOTOR_2_ID);
+    private final TalonFX leftMotor1 = new TalonFX(LEFT_MOTOR_1_ID);
+    private final TalonFX leftMotor2 = new TalonFX(LEFT_MOTOR_2_ID);
     private final TalonFX rightMotor1 = new TalonFX(RIGHT_MOTOR_1_ID);
     private final TalonFX rightMotor2 = new TalonFX(RIGHT_MOTOR_2_ID);
 
@@ -25,7 +25,7 @@ public class FuelShooter extends SubsystemBase {
 
     // ── Shooter speeds ───────────────────────────────────────────────────────
     // TODO: Tune these values during testing
-    private static final double LEFT_PAIR_SPEED  = 0.75;
+    private static final double LEFT_PAIR_SPEED = 0.75;
     private static final double RIGHT_PAIR_SPEED = 0.75;
 
     public FuelShooter() {
