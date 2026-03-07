@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.FuelIntake;
 import frc.robot.subsystems.FuelShooter;
 
 public class RobotContainer {
@@ -30,13 +30,12 @@ public class RobotContainer {
                                                                                       // max angular velocity
     private double InputDeadband = 0.1;
 
-    private final IntakeSubsystem intake = new IntakeSubsystem();
+    private final FuelIntake intake = new FuelIntake();
     private final FuelShooter fuelShooter = new FuelShooter();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * InputDeadband).withRotationalDeadband(MaxAngularRate * InputDeadband) // Add a 10%
-                                                                                                           // deadband
+            .withDeadband(MaxSpeed * InputDeadband).withRotationalDeadband(MaxAngularRate * InputDeadband) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -52,7 +51,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        // Left trigger → runs left motor pair while held
+        // Left trigger: runs left motor pair while held
         joystick.leftTrigger().whileTrue(
                 new edu.wpi.first.wpilibj2.command.RunCommand(
                         () -> fuelShooter.runLeftPair(),
@@ -62,7 +61,7 @@ public class RobotContainer {
                                 () -> fuelShooter.stopLeftPair(),
                                 fuelShooter));
 
-        // Right trigger → runs right motor pair while held
+        // Right trigger: runs right motor pair while held
         joystick.rightTrigger().whileTrue(
                 new edu.wpi.first.wpilibj2.command.RunCommand(
                         () -> fuelShooter.runRightPair(),
