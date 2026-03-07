@@ -20,8 +20,7 @@ public class TunerConstants {
 	// Both sets of gains need to be tuned to your individual robot.
 
 	// The steer motor uses any SwerveModule.SteerRequestType control request with
-	// the
-	// output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
+	// the output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
 	private static final Slot0Configs steerGains = new Slot0Configs()
 			.withKP(100)
 			.withKI(0)
@@ -64,8 +63,8 @@ public class TunerConstants {
 			.withCurrentLimits(
 					new CurrentLimitsConfigs()
 							// Swerve azimuth does not require much torque output, so we can set a
-							// relatively low
-							// stator current limit to help avoid brownouts without impacting performance.
+							// relatively low stator current limit to help avoid brownouts without impacting
+							// performance.
 							.withStatorCurrentLimit(Amps.of(60))
 							.withStatorCurrentLimitEnable(true));
 	private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
