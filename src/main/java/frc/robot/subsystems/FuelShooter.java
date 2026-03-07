@@ -5,6 +5,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelShooter extends SubsystemBase {
+  // TODO: Update Device IDs
   private final TalonFX leftMotor1 = new TalonFX(99);
   private final TalonFX leftMotor2 = new TalonFX(99);
   private final TalonFX rightMotor1 = new TalonFX(99);

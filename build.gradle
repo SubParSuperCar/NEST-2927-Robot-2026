@@ -7,7 +7,7 @@ plugins {
 spotless {
     java {
         target "src/**/*.java"
-        googleJavaFormat() // or eclipse().configFile("formatter.xml")
+        googleJavaFormat()
     }
 }
 
