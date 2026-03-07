@@ -5,31 +5,32 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelIntake extends SubsystemBase {
-  // TODO: Update Device IDs
-  private final TalonFX intakeMotor = new TalonFX(99);
-  private final TalonFX deployMotor = new TalonFX(99);
+	private final TalonFX intakeMotor = new TalonFX(30);
+	private final TalonFX deployMotor = new TalonFX(31);
 
-  private final DutyCycleOut motorRequest = new DutyCycleOut(0);
+	private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
-  private static final double MOTOR_OUTPUT = 1;
+	private void setOutput(TalonFX motor, double output) {
+		motor.setControl(motorRequest.withOutput(output));
+	}
 
-  public void intakeIn() {
-    intakeMotor.setControl(motorRequest.withOutput(MOTOR_OUTPUT));
-  }
+	public void intakeIn() {
+		setOutput(intakeMotor, 1);
+	}
 
-  public void intakeOut() {
-    intakeMotor.setControl(motorRequest.withOutput(-MOTOR_OUTPUT));
-  }
+	public void intakeOut() {
+		setOutput(intakeMotor, -1);
+	}
 
-  public void stop() {
-    intakeMotor.setControl(motorRequest.withOutput(0));
-  }
+	public void stop() {
+		setOutput(intakeMotor, 0);
+	}
 
-  public void deployOn() {
-    deployMotor.setControl(motorRequest.withOutput(MOTOR_OUTPUT));
-  }
+	public void deployOn() {
+		setOutput(deployMotor, 1);
+	}
 
-  public void deployOff() {
-    deployMotor.setControl(motorRequest.withOutput(0));
-  }
+	public void deployOff() {
+		setOutput(deployMotor, 0);
+	}
 }

@@ -57,21 +57,19 @@ public class RobotContainer {
     joystick
         .leftTrigger()
         .whileTrue(
-            new edu.wpi.first.wpilibj2.command.RunCommand(
-                () -> fuelShooter.runLeftPair(), fuelShooter))
+            new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter))
         .onFalse(
             new edu.wpi.first.wpilibj2.command.InstantCommand(
-                () -> fuelShooter.stopLeftPair(), fuelShooter));
+                () -> fuelShooter.run(), fuelShooter));
 
     // Right trigger: runs right motor pair while held
     joystick
         .rightTrigger()
         .whileTrue(
-            new edu.wpi.first.wpilibj2.command.RunCommand(
-                () -> fuelShooter.runRightPair(), fuelShooter))
+            new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter))
         .onFalse(
             new edu.wpi.first.wpilibj2.command.InstantCommand(
-                () -> fuelShooter.stopRightPair(), fuelShooter));
+                () -> fuelShooter.run(), fuelShooter));
 
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
