@@ -50,23 +50,20 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    joystick
-        .rightTrigger()
-        .whileTrue(
-            new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter))
-        .onFalse(
-            new edu.wpi.first.wpilibj2.command.InstantCommand(
-                () -> fuelShooter.stop(), fuelShooter));
-
+    // Fuel shooter key bindings
+    joystick.rightTrigger()
+        .whileTrue(new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter));
+    joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
+    // Intake key bindings
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
-    // When the bumper is released, the motor stops automatically
     joystick.rightBumper().onFalse(new InstantCommand(intake::stop, intake));
     joystick.leftBumper().onFalse(new InstantCommand(intake::stop, intake));
-    // Note that X is defined as forward according to WPILib convention,
-    // and Y is defined as to the left according to WPILib convention.
+    // deployment of the intake key bindings
     joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
     joystick.button(2).whileTrue(new InstantCommand(intake::deployRetract, intake));
+    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
+    joystick.button(2).onFalse(new InstantCommand(intake::deployStop, intake));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
