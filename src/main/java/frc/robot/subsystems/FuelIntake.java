@@ -26,11 +26,11 @@ public class FuelIntake extends SubsystemBase {
     setOutput(intakeMotor, 0);
   }
 
-  public void deployOn() {
+  public void deployExtend() {
     setOutput(deployMotor, 0.5);
   }
 
-  public void deployOff() {
+  public void deployRetract() {
     setOutput(deployMotor, -0.5);
   }
 }
