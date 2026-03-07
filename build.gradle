@@ -1,6 +1,14 @@
 plugins {
     id ("java")
     id ("edu.wpi.first.GradleRIO") version "2026.2.1"
+    id ("com.diffplug.spotless") version "6.25.0"
+}
+
+spotless {
+    java {
+        target "src/**/*.java"
+        googleJavaFormat() // or eclipse().configFile("formatter.xml")
+    }
 }
 
 java {
@@ -33,7 +41,7 @@ deploy {
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
                     files = project.fileTree('src/main/deploy')
                     directory = '/home/lvuser/deploy'
-                    deleteOldFiles = false // Change to true to delete files on roboRIO that no
+                    deleteOldFiles = true // Change to true to delete files on roboRIO that no
                                            // longer exist in deploy directory of this project
                 }
             }
