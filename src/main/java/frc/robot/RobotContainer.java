@@ -65,6 +65,9 @@ public class RobotContainer {
     joystick.leftBumper().onFalse(new InstantCommand(intake::stop, intake));
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
+    joystick.button(1).whileTrue(new InstantCommand(intake::deployOn, intake));
+    joystick.button(2).whileTrue(new InstantCommand(intake::deployOff, intake));
+
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
