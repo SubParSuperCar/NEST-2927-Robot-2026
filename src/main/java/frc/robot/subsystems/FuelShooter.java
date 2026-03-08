@@ -5,14 +5,15 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelShooter extends SubsystemBase {
-  private final TalonFX kickerMotor1 = new TalonFX(29);
-  private final TalonFX kickerMotor2 = new TalonFX(28);
-  private final TalonFX shooterMotor1 = new TalonFX(3);
-  private final TalonFX shooterMotor2 = new TalonFX(26);
+  private final TalonFX kickerMotor1 = new TalonFX(29, "Default Name");
+  private final TalonFX kickerMotor2 = new TalonFX(28, "Default Name");
+  private final TalonFX shooterMotor1 = new TalonFX(3, "Default Name");
+  private final TalonFX shooterMotor2 = new TalonFX(26, "Default Name");
 
   private double ShooterMotorPower = 1;
 
-  private final TalonFX[] motors = { kickerMotor1, kickerMotor2, shooterMotor1, shooterMotor2 };
+  private final TalonFX[] motor1s = { kickerMotor1, shooterMotor1 };
+  private final TalonFX[] motor2s = { kickerMotor2, shooterMotor1 };
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
   public FuelShooter() {
@@ -20,9 +21,12 @@ public class FuelShooter extends SubsystemBase {
 
   private void setOutputAll(double output) {
     var request = motorRequest.withOutput(output);
-
-    for (TalonFX motor : motors) {
+    var request2 = motorRequest.withOutput(-output);
+    for (TalonFX motor : motor1s) {
       motor.setControl(request);
+    }
+    for (TalonFX motor : motor2s) {
+      motor.setControl(request2);
     }
   }
 
