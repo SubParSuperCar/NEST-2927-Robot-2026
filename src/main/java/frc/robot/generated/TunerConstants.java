@@ -22,8 +22,7 @@ public class TunerConstants {
     // Both sets of gains need to be tuned to your individual robot.
 
     // The steer motor uses any SwerveModule.SteerRequestType control request with
-    // the
-    // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
+    // the output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
             .withKP(100).withKI(0).withKD(0.5)
             .withKS(0.1).withKV(1.50).withKA(0)
@@ -132,7 +131,7 @@ public class TunerConstants {
             .withSteerFrictionVoltage(kSteerFrictionVoltage)
             .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
-    // Front Left
+    // Front Left (FL)
     private static final int kFrontLeftDriveMotorId = 7;
     private static final int kFrontLeftSteerMotorId = 8;
     private static final int kFrontLeftEncoderId = 14;
@@ -143,7 +142,7 @@ public class TunerConstants {
     private static final Distance kFrontLeftXPos = Inches.of(10.75);
     private static final Distance kFrontLeftYPos = Inches.of(10.75);
 
-    // Front Right
+    // Front Right (FR)
     private static final int kFrontRightDriveMotorId = 5;
     private static final int kFrontRightSteerMotorId = 6;
     private static final int kFrontRightEncoderId = 13;
@@ -154,7 +153,7 @@ public class TunerConstants {
     private static final Distance kFrontRightXPos = Inches.of(10.75);
     private static final Distance kFrontRightYPos = Inches.of(-10.75);
 
-    // Back Left
+    // Back Left (BL)
     private static final int kBackLeftDriveMotorId = 1;
     private static final int kBackLeftSteerMotorId = 2;
     private static final int kBackLeftEncoderId = 10;
@@ -165,7 +164,7 @@ public class TunerConstants {
     private static final Distance kBackLeftXPos = Inches.of(-10.75);
     private static final Distance kBackLeftYPos = Inches.of(10.75);
 
-    // Back Right
+    // Back Right (BR)
     private static final int kBackRightDriveMotorId = 25;
     private static final int kBackRightSteerMotorId = 4;
     private static final int kBackRightEncoderId = 11;
