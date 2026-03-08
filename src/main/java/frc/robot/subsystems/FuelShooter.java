@@ -23,15 +23,15 @@ public class FuelShooter extends SubsystemBase {
   }
 
   private void setOutputAll(double output) {
-    var request1 = motorRequest.withOutput(output * KickerMotorPower);
-    var request2 = motorRequest.withOutput(output * ShooterMotorPower);
+    var kickerRequest = motorRequest.withOutput(output * KickerMotorPower);
+    var shooterRequest = motorRequest.withOutput(output * ShooterMotorPower);
     
     for (TalonFX motor : kickerMotors) {
-      motor.setControl(request1);
+      motor.setControl(kickerRequest);
     }
     
     for (TalonFX motor : shooterMotors) {
-      motor.setControl(request2);
+      motor.setControl(shooterRequest);
     }
   }
 
