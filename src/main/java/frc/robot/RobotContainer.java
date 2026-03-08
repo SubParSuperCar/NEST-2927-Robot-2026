@@ -60,10 +60,10 @@ public class RobotContainer {
     joystick.rightBumper().onFalse(new InstantCommand(intake::stop, intake));
     joystick.leftBumper().onFalse(new InstantCommand(intake::stop, intake));
     // deployment of the intake key bindings
-    joystick.a().whileTrue(new InstantCommand(intake::deployExtend, intake));
-    joystick.b().whileTrue(new InstantCommand(intake::deployRetract, intake));
-    joystick.a().onFalse(new InstantCommand(intake::deployStop, intake));
-    joystick.b().onFalse(new InstantCommand(intake::deployStop, intake));
+    joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
+    joystick.button(2).whileTrue(new InstantCommand(intake::deployRetract, intake));
+    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
+    joystick.button(2).onFalse(new InstantCommand(intake::deployStop, intake));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
