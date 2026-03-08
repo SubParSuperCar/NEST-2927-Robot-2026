@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+// TODO: Delete import comments if autonomous command method will not be used. - Elliot
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -129,3 +130,4 @@ public class RobotContainer {
  * // Finally idle for the rest of auton
  * drivetrain.applyRequest(() -> idle));
  */
+
