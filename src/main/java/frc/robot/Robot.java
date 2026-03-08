@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
   @SuppressWarnings("unused")
   private final RobotContainer m_robotContainer;
 
-  /* log and replay timestamp and joystick data */
+  // Log and replay timestamp and joystick data
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
       .withJoystickReplay();
 
@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  // TODO: Consider omitting empty overrides? - Elliot
+  // TODO: Consider removing empty overrides? - Elliot
   @Override
   public void disabledInit() {
   }
@@ -93,4 +93,5 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {
   }
 }
+
 
