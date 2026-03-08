@@ -5,7 +5,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelShooter extends SubsystemBase {
-  // TODO: See comment in FuelIntake. - Elliot
+  // TODO: See comments in FuelIntake. - Elliot
   private final TalonFX kickerMotor1 = new TalonFX(29, "Default Name");
   private final TalonFX kickerMotor2 = new TalonFX(28, "Default Name");
   private final TalonFX shooterMotor1 = new TalonFX(3, "Default Name");
