@@ -51,16 +51,18 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Fuel shooter key bindings
+    // Fuel shooter joypad bindings
     joystick.rightTrigger()
         .whileTrue(new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
-    // Intake key bindings
+    
+    // Intake joypad bindings
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
-    joystick.rightBumper().onFalse(new InstantCommand(intake::stop, intake));
-    joystick.leftBumper().onFalse(new InstantCommand(intake::stop, intake));
-    // deployment of the intake key bindings
+    joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+    joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+    
+    // Intake deploy joypad bindings
     joystick.a().whileTrue(new InstantCommand(intake::deployExtend, intake));
     joystick.b().whileTrue(new InstantCommand(intake::deployRetract, intake));
     joystick.a().onFalse(new InstantCommand(intake::deployStop, intake));
@@ -130,4 +132,5 @@ public class RobotContainer {
  * // Finally idle for the rest of auton
  * drivetrain.applyRequest(() -> idle));
  */
+
 
