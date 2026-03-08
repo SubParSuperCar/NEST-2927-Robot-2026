@@ -8,6 +8,9 @@ public class FuelIntake extends SubsystemBase {
   private final TalonFX intakeMotor = new TalonFX(30);
   private final TalonFX deployMotor = new TalonFX(31);
 
+  private double IntakeMotorOutput = 1;
+  private double DeployMotorOutput = 1 / 3;
+
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
   private void setOutput(TalonFX motor, double output) {
@@ -15,11 +18,11 @@ public class FuelIntake extends SubsystemBase {
   }
 
   public void intakeIn() {
-    setOutput(intakeMotor, 1);
+    setOutput(intakeMotor, IntakeMotorOutput);
   }
 
   public void intakeOut() {
-    setOutput(intakeMotor, -1);
+    setOutput(intakeMotor, -IntakeMotorOutput);
   }
 
   public void stop() {
@@ -27,11 +30,11 @@ public class FuelIntake extends SubsystemBase {
   }
 
   public void deployExtend() {
-    setOutput(deployMotor, 0.5);
+    setOutput(deployMotor, DeployMotorOutput);
   }
 
   public void deployRetract() {
-    setOutput(deployMotor, -0.5);
+    setOutput(deployMotor, -DeployMotorOutput);
   }
 
   public void deployStop() {
