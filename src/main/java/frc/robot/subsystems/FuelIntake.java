@@ -5,6 +5,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelIntake extends SubsystemBase {
+  // TODO: Rename CANivores, tuner-project.json modules, etc. with default names to something clearer. - Elliot
   private final TalonFX intakeMotor = new TalonFX(30, "Default Name");
   private final TalonFX deployMotor = new TalonFX(31, "Default Name");
 
