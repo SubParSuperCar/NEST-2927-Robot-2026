@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  // TODO: Consider omitting empty overrides? - Elliot
   @Override
   public void disabledInit() {
   }
@@ -92,3 +93,4 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {
   }
 }
+
