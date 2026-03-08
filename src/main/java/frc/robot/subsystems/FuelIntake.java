@@ -26,6 +26,8 @@ public class FuelIntake extends SubsystemBase {
     setOutput(intakeMotor, -IntakeMotorOutput);
   }
 
+  // TODO: Use energy-efficient method to coast / freewheel motors to a stop.
+  // Do the same to FuelShooter if possible. Consult Mr. P for clarity. - Elliot
   public void intakeStop() {
     setOutput(intakeMotor, 0);
   }
