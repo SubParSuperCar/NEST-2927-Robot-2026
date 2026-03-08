@@ -26,7 +26,7 @@ public class FuelIntake extends SubsystemBase {
     setOutput(intakeMotor, -IntakeMotorOutput);
   }
 
-  public void stop() {
+  public void intakeStop() {
     setOutput(intakeMotor, 0);
   }
 
