@@ -1,8 +1,10 @@
 # NEST-2927-Robot-2026
 
-The GitHub repository containing the source code for NEST Robotics’ 2026 FIRST Robotics Competition robot.
+The GitHub repository containing the source code for NEST Robotics' 2026 FIRST Robotics Competition robot.
 
 Our team number is 2927.
+
+![NEST Logo](https://sos-campmobile.pstatic.net/e/38hd8h/1_h70Ud018svczjvusrdn12z8_4rdtn.png?type=cover_s276)
 
 ## Links
 
