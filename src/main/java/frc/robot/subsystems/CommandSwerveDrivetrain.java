@@ -36,16 +36,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
 
-  /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
+  // Blue alliance sees forward as 0 degrees (toward red alliance wall)
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
   
-  /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
+  // Red alliance sees forward as 180 degrees (toward blue alliance wall)
   private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
   
-  /* Keep track if we've ever applied the operator perspective before or not */
+  // Keep track if we've ever applied the operator perspective before or not
   private boolean m_hasAppliedOperatorPerspective = false;
 
-  /* Swerve requests to apply during SysId characterization */
+  // Swerve requests to apply during SysId characterization */
   private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
   private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
   private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
@@ -89,24 +89,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   @SuppressWarnings("unused")
   private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
       new SysIdRoutine.Config(
-          /* This is in radians per second², but SysId only supports "volts per second" */
+          // This is in radians per second², but SysId only supports "volts per second"
           Volts.of(Math.PI / 6).per(Second),
-          /* This is in radians per second, but SysId only supports "volts" */
+          // This is in radians per second, but SysId only supports "volts"
           Volts.of(Math.PI),
           null, // Use default timeout (10 s)
           // Log state with SignalLogger class
           state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
       new SysIdRoutine.Mechanism(
           output -> {
-            /* output is actually radians per second, but SysId only supports "volts" */
+            // Output is actually radians per second, but SysId only supports "volts"
             setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-            /* also log the requested output for SysId */
+            // Also log the requested output for SysId
             SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
           },
           null,
           this));
 
-  /* The SysId routine to test */
+  // The SysId routine to test
   private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
 
   /**
@@ -260,7 +260,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private void startSimThread() {
     m_lastSimTime = Utils.getCurrentTimeSeconds();
 
-    /* Run simulation at a faster rate so PID gains behave more reasonably */
+    // Run simulation at a faster rate so PID gains behave more reasonably
     m_simNotifier = new Notifier(
         () -> {
           final double currentTime = Utils.getCurrentTimeSeconds();
@@ -329,3 +329,4 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
   }
 }
+
