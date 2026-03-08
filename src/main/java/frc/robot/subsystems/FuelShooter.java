@@ -10,26 +10,25 @@ public class FuelShooter extends SubsystemBase {
   private final TalonFX kickerMotor2 = new TalonFX(28, "Default Name");
   private final TalonFX shooterMotor1 = new TalonFX(3, "Default Name");
   private final TalonFX shooterMotor2 = new TalonFX(26, "Default Name");
-
+  // Vars
   private double ShooterMotorPower = 1;
+  private double KickerMotorsPower = 0.8;
+  private double ShooterMotorsPower = 0.6;
 
-  private final TalonFX[] motor1s = { kickerMotor1, shooterMotor1 };
-  private final TalonFX[] motor2s = { kickerMotor2, shooterMotor2 };
-  
+  private final TalonFX[] kickermotors = { kickerMotor1, kickerMotor2, };
+  private final TalonFX[] shootermotors = { shooterMotor1, shooterMotor2 };
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
   public FuelShooter() {
   }
 
   private void setOutputAll(double output) {
-    var request1 = motorRequest.withOutput(output);
-    var request2 = motorRequest.withOutput(-output);
-    
-    for (TalonFX motor : motor1s) {
+    var request1 = motorRequest.withOutput(output * KickerMotorsPower);
+    var request2 = motorRequest.withOutput(output * ShooterMotorsPower);
+    for (TalonFX motor : kickermotors) {
       motor.setControl(request1);
     }
-    
-    for (TalonFX motor : motor2s) {
+    for (TalonFX motor : shootermotors) {
       motor.setControl(request2);
     }
   }
