@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelIntake extends SubsystemBase {
-
   private final TalonFX intakeMotor = new TalonFX(30, "Default Name");
   private final TalonFX deployMotor = new TalonFX(31, "Default Name");
 
