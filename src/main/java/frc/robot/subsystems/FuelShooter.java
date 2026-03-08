@@ -13,7 +13,6 @@ public class FuelShooter extends SubsystemBase {
   private double ShooterMotorPower = 1;
 
   private final TalonFX[] motors = { kickerMotor1, kickerMotor2, shooterMotor1, shooterMotor2 };
-
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
   public FuelShooter() {
