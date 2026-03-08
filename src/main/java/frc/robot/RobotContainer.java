@@ -60,10 +60,10 @@ public class RobotContainer {
     joystick.rightBumper().onFalse(new InstantCommand(intake::stop, intake));
     joystick.leftBumper().onFalse(new InstantCommand(intake::stop, intake));
     // deployment of the intake key bindings
-    joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
-    joystick.button(2).whileTrue(new InstantCommand(intake::deployRetract, intake));
-    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
-    joystick.button(2).onFalse(new InstantCommand(intake::deployStop, intake));
+    joystick.a().whileTrue(new InstantCommand(intake::deployExtend, intake));
+    joystick.b().whileTrue(new InstantCommand(intake::deployRetract, intake));
+    joystick.a().onFalse(new InstantCommand(intake::deployStop, intake));
+    joystick.b().onFalse(new InstantCommand(intake::deployStop, intake));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
@@ -83,14 +83,15 @@ public class RobotContainer {
     RobotModeTriggers.disabled()
         .whileTrue(drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
-    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    joystick
-        .b()
-        .whileTrue(
-            drivetrain.applyRequest(
-                () -> point.withModuleDirection(
-                    new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
-
+    /*
+     * joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+     * joystick
+     * .b()
+     * .whileTrue(
+     * drivetrain.applyRequest(
+     * () -> point.withModuleDirection(
+     * new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
+     */
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));

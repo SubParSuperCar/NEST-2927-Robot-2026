@@ -9,6 +9,7 @@ public class FuelIntake extends SubsystemBase {
 
   private final TalonFX intakeMotor = new TalonFX(30, "Default Name");
   private final TalonFX deployMotor = new TalonFX(31, "Default Name");
+
   private double IntakeMotorOutput = 1;
   private double DeployMotorOutput = 1 / 3;
 
