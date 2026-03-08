@@ -30,7 +30,7 @@ public class RobotContainer {
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
 
-  /* Setting up bindings for necessary control of the swerve drive platform */
+  // Setting up bindings for necessary control of the swerve drive platform
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * InputDeadband)
       .withRotationalDeadband(MaxAngularRate * InputDeadband) // Add a 10% deadband
@@ -92,6 +92,7 @@ public class RobotContainer {
      * () -> point.withModuleDirection(
      * new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
      */
+    
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
