@@ -8,7 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
 // import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 // import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -36,8 +36,10 @@ public class RobotContainer {
       .withRotationalDeadband(MaxAngularRate * InputDeadband) // Add a 10% deadband
       .withDriveRequestType(
           DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  // private final SwerveRequest.SwerveDriveBrake brake = new
+  // SwerveRequest.SwerveDriveBrake();
+  // private final SwerveRequest.PointWheelsAt point = new
+  // SwerveRequest.PointWheelsAt();
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -54,13 +56,13 @@ public class RobotContainer {
     joystick.rightTrigger()
         .whileTrue(new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
-    
+
     // Intake joypad bindings
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
     joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
     joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
-    
+
     // Intake deploy joypad bindings
     joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
     joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
@@ -92,7 +94,7 @@ public class RobotContainer {
      * () -> point.withModuleDirection(
      * new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
      */
-    
+
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
