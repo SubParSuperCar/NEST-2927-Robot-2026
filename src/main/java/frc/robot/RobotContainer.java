@@ -25,7 +25,7 @@ public class RobotContainer {
   // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
-  private double InputDeadband = 0.1;
+  private double InputDeadband = 1 / 8;
 
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
