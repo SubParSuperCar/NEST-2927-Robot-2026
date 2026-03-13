@@ -25,7 +25,7 @@ public class RobotContainer {
   // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
-  private double InputDeadband = 1 / 8;
+  private double InputDeadband = 1 / 8; // Add a 12.5% deadband
 
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
@@ -33,7 +33,7 @@ public class RobotContainer {
   // Setting up bindings for necessary control of the swerve drive platform
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * InputDeadband)
-      .withRotationalDeadband(MaxAngularRate * InputDeadband) // Add a 10% deadband
+      .withRotationalDeadband(MaxAngularRate * InputDeadband)
       .withDriveRequestType(
           DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   // private final SwerveRequest.SwerveDriveBrake brake = new
