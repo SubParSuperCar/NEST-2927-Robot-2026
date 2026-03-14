@@ -8,10 +8,9 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-// import edu.wpi.first.math.geometry.Rotation2d;
-// import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -25,7 +24,7 @@ public class RobotContainer {
   // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
-  private double InputDeadband = 1 / 8; // Add a 12.5% deadband
+  private double InputDeadband = 1 / 8; // Apply a 12.5% deadband
 
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
@@ -36,10 +35,13 @@ public class RobotContainer {
       .withRotationalDeadband(MaxAngularRate * InputDeadband)
       .withDriveRequestType(
           DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-  // private final SwerveRequest.SwerveDriveBrake brake = new
-  // SwerveRequest.SwerveDriveBrake();
-  // private final SwerveRequest.PointWheelsAt point = new
-  // SwerveRequest.PointWheelsAt();
+
+  /*
+   * private final SwerveRequest.SwerveDriveBrake brake = new
+   * SwerveRequest.SwerveDriveBrake();
+   * private final SwerveRequest.PointWheelsAt point = new
+   * SwerveRequest.PointWheelsAt();
+   */
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -54,7 +56,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Fuel shooter joypad bindings
     joystick.rightTrigger()
-        .whileTrue(new edu.wpi.first.wpilibj2.command.RunCommand(() -> fuelShooter.run(), fuelShooter));
+        .whileTrue(new RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
 
     // Intake joypad bindings
@@ -85,16 +87,6 @@ public class RobotContainer {
     RobotModeTriggers.disabled()
         .whileTrue(drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
-    /*
-     * joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-     * joystick
-     * .b()
-     * .whileTrue(
-     * drivetrain.applyRequest(
-     * () -> point.withModuleDirection(
-     * new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
-     */
-
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -116,19 +108,3 @@ public class RobotContainer {
    * }
    */
 }
-
-/*
- * // Simple drive forward auton
- * final var idle = new SwerveRequest.Idle();
- * return Commands.sequence(
- * // Reset our field centric heading to match the robot
- * // facing away from our alliance station wall (0 deg).
- * drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
- * // Then slowly drive forward (away from us) for 5 seconds.
- * drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
- * .withVelocityY(0)
- * .withRotationalRate(0))
- * .withTimeout(5.0),
- * // Finally idle for the rest of auton
- * drivetrain.applyRequest(() -> idle));
- */

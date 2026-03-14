@@ -29,37 +29,40 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  // TODO: Consider removing empty overrides? - Elliot
-  @Override
-  public void disabledInit() {
-  }
-
-  @Override
-  public void disabledPeriodic() {
-  }
-
-  @Override
-  public void disabledExit() {
-  }
+  /*
+   * @Override
+   * public void disabledInit() {
+   * }
+   * 
+   * @Override
+   * public void disabledPeriodic() {
+   * }
+   * 
+   * @Override
+   * public void disabledExit() {
+   * }
+   */
 
   @Override
   public void autonomousInit() {
     /*
      * m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-     *
+     * 
      * if (m_autonomousCommand != null) {
      * CommandScheduler.getInstance().schedule(m_autonomousCommand);
      * }
      */
   }
 
-  @Override
-  public void autonomousPeriodic() {
-  }
-
-  @Override
-  public void autonomousExit() {
-  }
+  /*
+   * @Override
+   * public void autonomousPeriodic() {
+   * }
+   * 
+   * @Override
+   * public void autonomousExit() {
+   * }
+   */
 
   @Override
   public void teleopInit() {
@@ -68,28 +71,30 @@ public class Robot extends TimedRobot {
     }
   }
 
-  @Override
-  public void teleopPeriodic() {
-  }
-
-  @Override
-  public void teleopExit() {
-  }
-
-  @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  @Override
-  public void testPeriodic() {
-  }
-
-  @Override
-  public void testExit() {
-  }
-
-  @Override
-  public void simulationPeriodic() {
-  }
+  /*
+   * @Override
+   * public void teleopPeriodic() {
+   * }
+   * 
+   * @Override
+   * public void teleopExit() {
+   * }
+   * 
+   * @Override
+   * public void testInit() {
+   * CommandScheduler.getInstance().cancelAll();
+   * }
+   * 
+   * @Override
+   * public void testPeriodic() {
+   * }
+   * 
+   * @Override
+   * public void testExit() {
+   * }
+   * 
+   * @Override
+   * public void simulationPeriodic() {
+   * }
+   */
 }
