@@ -1,3 +1,5 @@
+root = true
+
 # ./gradlew spotlessApply
 [*.java]
 indent_style = space

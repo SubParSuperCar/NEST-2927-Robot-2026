@@ -5,7 +5,7 @@ The GitHub repository containing the source code for NEST Robotics' 2026 FIRST R
 ![NEST Logo](https://sos-campmobile.pstatic.net/e/38hd8h/1_h70Ud018svczjvusrdn12z8_4rdtn.png?type=cover_s276)
 
 > [!NOTE]
-> Our team number is 2927.
+> Our team number is `2927`.
 
 ## Links
 
