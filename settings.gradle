@@ -4,23 +4,23 @@ pluginManagement {
   repositories {
     mavenLocal() {
       gradlePluginPortal() {
-        String frcYear = '2026'
+        String frcYear = "2026"
         File frcHome
+
+        def homeRootDir = null
+
         if (OperatingSystem.current().isWindows()) {
-          String publicFolder = System.getenv('PUBLIC')
-          if (publicFolder == null) {
-            publicFolder = "C:\\Users\\Public"
-          }
-          def homeRoot = new File(publicFolder, "wpilib")
-          frcHome = new File(homeRoot, frcYear)
+          frcHomeDir = System.getenv("PUBLIC") ?? "C:\\Users\\Public"
         } else {
-          def userFolder = System.getProperty("user.home")
-          def homeRoot = new File(userFolder, "wpilib")
-          frcHome = new File(homeRoot, frcYear)
+          frcHomeDir = System.getProperty("user.home")
         }
-        def frcHomeMaven = new File(frcHome, 'maven')
+
+        def homeRoot = new File(homeRootDir, "wpilib")
+        def frcHome = new File(homeRoot, frcYear)
+        def frcHomeMaven = new File(frcHome, "maven")
+
         maven {
-          name 'frcHome'
+          name "frcHome"
           url frcHomeMaven
         }
       }
