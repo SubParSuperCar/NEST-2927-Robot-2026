@@ -6,14 +6,13 @@ pluginManagement {
     gradlePluginPortal()
     
     String frcYear = "2026"
-    File frcHome
 
-    def homeRootDir = null
+    def homeRootDir
 
     if (OperatingSystem.current().isWindows()) {
-      frcHomeDir = System.getenv("PUBLIC") ?? "C:\\Users\\Public"
+      homeRootDir = System.getenv("PUBLIC") ?: "C:\\Users\\Public"
     } else {
-      frcHomeDir = System.getProperty("user.home")
+      homeRootDir = System.getProperty("user.home")
     }
 
     def homeRoot = new File(homeRootDir, "wpilib")
@@ -27,5 +26,5 @@ pluginManagement {
   }
 }
 
-Properties props = System.getProperties();
-props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");
+Properties props = System.getProperties()
+props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true")
