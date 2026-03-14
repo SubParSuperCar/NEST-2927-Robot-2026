@@ -1,0 +1,25 @@
+import org.gradle.internal.os.OperatingSystem
+
+pluginManagement {
+  repositories {
+    mavenLocal()
+    gradlePluginPortal()
+
+    String frcYear = "2026"
+
+    def homeRootDir = OperatingSystem.current().isWindows()
+        ? (System.getenv("PUBLIC") ?: "C:\\Users\\Public")
+        : System.getProperty("user.home")
+
+    def frcHomeMaven = new File(new File(new File(homeRootDir, "wpilib"), frcYear), "maven")
+
+    maven {
+      name "frcHome"
+      url frcHomeMaven
+    }
+  }
+}
+
+// Suppress spurious native header resolution warnings.
+Properties props = System.getProperties()
+props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true")

@@ -1,0 +1,88 @@
+plugins {
+  id ("java")
+  id ("edu.wpi.first.GradleRIO") version "2026.2.1"
+  id ("com.diffplug.spotless") version "6.25.0" // run: ./gradlew spotlessApply
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
+// RoboRIO deploy targets and artifacts via GradleRIO/DeployUtils.
+deploy {
+  targets {
+    roborio(getTargetTypeClass('RoboRIO')) {
+      // Team number loaded from .wpilib/wpilib_preferences.json or the command line.
+      team = project.frc.getTeamNumber()
+      debug = project.frc.getDebugOrDefault(false)
+
+      artifacts {
+        frcJava(getArtifactTypeClass('FRCJavaArtifact')) {}
+
+        frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
+          files = project.fileTree('src/main/deploy')
+          directory = '/home/lvuser/deploy'
+          deleteOldFiles = true
+        }
+      }
+    }
+  }
+}
+
+def deployArtifact = deploy.targets.roborio.artifacts.frcJava
+
+// Set true to enable JNI debug (significantly impacts performance).
+wpi.java.debugJni = false
+
+// Set true to enable desktop simulation support.
+def includeDesktopSupport = true
+
+dependencies {
+  annotationProcessor wpi.java.deps.wpilibAnnotations()
+  implementation      wpi.java.deps.wpilib()
+  implementation      wpi.java.vendor.java()
+
+  roborioDebug   wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
+  roborioDebug   wpi.java.vendor.jniDebug(wpi.platforms.roborio)
+  roborioRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.roborio)
+  roborioRelease wpi.java.vendor.jniRelease(wpi.platforms.roborio)
+
+  nativeDebug       wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
+  nativeDebug       wpi.java.vendor.jniDebug(wpi.platforms.desktop)
+  simulationDebug   wpi.sim.enableDebug()
+  nativeRelease     wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
+  nativeRelease     wpi.java.vendor.jniRelease(wpi.platforms.desktop)
+  simulationRelease wpi.sim.enableRelease()
+
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+  testRuntimeOnly    'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+  useJUnitPlatform()
+  systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+}
+
+// Simulation GUI and Driver Station support.
+wpi.sim.addGui().defaultEnabled = true
+wpi.sim.addDriverstation()
+
+// Fat jar: bundles all runtime deps and sets the manifest entry point.
+jar {
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+  from sourceSets.main.allSource
+  manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+deployArtifact.jarTask = jar
+wpi.java.configureExecutableTasks(jar)
+wpi.java.configureTestTasks(test)
+
+// Inline string concatenation for consistent roboRIO performance.
+tasks.withType(JavaCompile) {
+  options.compilerArgs.add '-XDstringConcat=inline'
+}
