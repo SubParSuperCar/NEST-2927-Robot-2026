@@ -42,4 +42,8 @@ public class FuelShooter extends SubsystemBase {
   public void stop() {
     setOutputAll(0);
   }
+
+  public void move() {
+
+  }
 }
