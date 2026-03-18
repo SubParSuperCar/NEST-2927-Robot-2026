@@ -26,6 +26,11 @@ public class RobotContainer {
   // max angular velocity
   private double InputDeadband = 1 / 8; // Apply a 12.5% deadband
 
+  public double tx = LimelightHelpers.getTX("");
+  public double ty = LimelightHelpers.getTY("");
+  public double ta = LimelightHelpers.getTA("");
+  public boolean hasTarget = LimelightHelpers.getTV("");
+
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
 
@@ -80,7 +85,6 @@ public class RobotContainer {
                     -joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with
         // negative X (left)
         ));
-
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.
     final var idle = new SwerveRequest.Idle();
