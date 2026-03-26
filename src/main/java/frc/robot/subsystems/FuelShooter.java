@@ -1,14 +1,15 @@
 package frc.robot.subsystems;
 
+import frc.robot.generated.TunerConstants;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FuelShooter extends SubsystemBase {
-  private final TalonFX kickerMotor1 = new TalonFX(29, "Default Name");
-  private final TalonFX kickerMotor2 = new TalonFX(28, "Default Name");
-  private final TalonFX shooterMotor1 = new TalonFX(3, "Default Name");
-  private final TalonFX shooterMotor2 = new TalonFX(26, "Default Name");
+  private final TalonFX kickerMotor1 = new TalonFX(29, TunerConstants.kCANBus);
+  private final TalonFX kickerMotor2 = new TalonFX(28, TunerConstants.kCANBus);
+  private final TalonFX shooterMotor1 = new TalonFX(3, TunerConstants.kCANBus);
+  private final TalonFX shooterMotor2 = new TalonFX(26, TunerConstants.kCANBus);
 
   private double KickerMotorOutput = 0.75;
   private double ShooterMotorOutput = 0.5;

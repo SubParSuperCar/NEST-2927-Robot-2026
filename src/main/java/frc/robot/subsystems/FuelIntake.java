@@ -3,10 +3,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.generated.TunerConstants;
 
 public class FuelIntake extends SubsystemBase {
-  private final TalonFX intakeMotor = new TalonFX(30, "Default Name");
-  private final TalonFX deployMotor = new TalonFX(31, "Default Name");
+  private final TalonFX intakeMotor = new TalonFX(30, TunerConstants.kCANBus);
+  private final TalonFX deployMotor = new TalonFX(31, TunerConstants.kCANBus);
 
   private double IntakeMotorOutput = 7 / 8;
   private double DeployMotorOutput = 1 / 3;
