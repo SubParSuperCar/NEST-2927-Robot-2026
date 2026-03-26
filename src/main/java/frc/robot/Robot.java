@@ -71,11 +71,12 @@ public class Robot extends TimedRobot {
     }
   }
 
+  @Override
+  public void teleopPeriodic() {
+    LimelightHelpers.setLEDMode_ForceBlink("");
+  }
+
   /*
-   * @Override
-   * public void teleopPeriodic() {
-   * }
-   *
    * @Override
    * public void teleopExit() {
    * }
