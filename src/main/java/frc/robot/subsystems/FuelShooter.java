@@ -12,7 +12,7 @@ public class FuelShooter extends SubsystemBase {
   private final TalonFX shooterMotor2 = new TalonFX(26, TunerConstants.kCANBus);
 
   private double KickerMotorOutput = 1;
-  private double ShooterMotorOutput = 0.75;
+  public double ShooterMotorOutput = 0.62;
 
   private final TalonFX[] kickerMotors = { kickerMotor1, kickerMotor2, };
   private final TalonFX[] shooterMotors = { shooterMotor1, shooterMotor2 };
@@ -42,5 +42,13 @@ public class FuelShooter extends SubsystemBase {
 
   public void move() {
 
+  }
+
+  public void increaseSpeed() {
+    Math.min(1, ShooterMotorOutput + 0.05);
+  }
+
+  public void decreaseSpeed() {
+    Math.max(0.5, ShooterMotorOutput - 0.05);
   }
 }

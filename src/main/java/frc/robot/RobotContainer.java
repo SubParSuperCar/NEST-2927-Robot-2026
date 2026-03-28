@@ -31,8 +31,8 @@ public class RobotContainer {
 
   // Setting up bindings for necessary control of the swerve drive platform
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * InputDeadband)
-      .withRotationalDeadband(MaxAngularRate * InputDeadband)
+      .withDeadband(0.01)
+      .withRotationalDeadband(0.01)
       .withDriveRequestType(
           DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
@@ -65,6 +65,9 @@ public class RobotContainer {
     joystick.rightTrigger()
         .whileTrue(new RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
+
+    joystick.button(2).whileTrue(new InstantCommand(fuelShooter::increaseSpeed, fuelShooter));
+    joystick.button(3).whileTrue(new InstantCommand(fuelShooter::decreaseSpeed, fuelShooter));
 
     // Intake joypad bindings
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
