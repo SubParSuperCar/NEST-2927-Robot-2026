@@ -53,6 +53,15 @@ public class RobotContainer {
     configureBindings();
   }
 
+  private static double curve(double raw, double deadband) {
+    if (Math.abs(raw) < deadband)
+      return 0f;
+
+    double scaled = (Math.abs(raw) - deadband) / (1f - deadband);
+
+    return Math.copySign(scaled * scaled, raw);
+  }
+
   private void configureBindings() {
     // Fuel shooter joypad bindings
     joystick.rightTrigger()
@@ -73,11 +82,11 @@ public class RobotContainer {
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
             () -> drive
-                .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y
+                .withVelocityX(curve(-joystick.getLeftY() * MaxSpeed, InputDeadband)) // Drive forward with negative Y
                 .withVelocityY(
-                    -joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    curve(-joystick.getLeftX() * MaxSpeed, InputDeadband)) // Drive left with negative X (left)
                 .withRotationalRate(
-                    -joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                    curve(-joystick.getRightX() * MaxAngularRate, InputDeadband)) // Drive counterclockwise with
         // negative X (left)
         ));
 
