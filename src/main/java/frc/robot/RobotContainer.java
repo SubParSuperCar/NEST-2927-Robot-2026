@@ -55,10 +55,8 @@ public class RobotContainer {
 
   private static double curve(double raw, double deadband) {
     if (Math.abs(raw) < deadband)
-      return 0f;
-
-    double scaled = (Math.abs(raw) - deadband) / (1f - deadband);
-
+      return 0.0;
+    double scaled = (Math.abs(raw) - deadband) / (1.0 - deadband);
     return Math.copySign(scaled * scaled, raw);
   }
 
