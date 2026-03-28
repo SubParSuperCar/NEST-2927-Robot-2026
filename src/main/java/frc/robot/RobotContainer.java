@@ -72,10 +72,10 @@ public class RobotContainer {
     joystick.button(4).onTrue(new InstantCommand(fuelShooter::resetSpeed, fuelShooter));
 
     // Intake joypad bindings
-    joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
-    joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+    joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
     joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+    joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
 
     // Intake deploy joypad bindings
     joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
