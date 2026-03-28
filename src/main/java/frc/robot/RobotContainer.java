@@ -24,7 +24,7 @@ public class RobotContainer {
   // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
-  private double InputDeadband = 0.075; // Apply a 7.5% deadband
+  private double InputDeadband = 0.0625; // Apply a 6.25% deadband
 
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
@@ -56,6 +56,7 @@ public class RobotContainer {
   private static double curve(double raw, double deadband) {
     if (Math.abs(raw) < deadband)
       return 0.0;
+
     double scaled = (Math.abs(raw) - deadband) / (1.0 - deadband);
     return Math.copySign(scaled * scaled, raw);
   }
@@ -66,8 +67,9 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
 
-    joystick.button(2).whileTrue(new InstantCommand(fuelShooter::increaseSpeed, fuelShooter));
-    joystick.button(3).whileTrue(new InstantCommand(fuelShooter::decreaseSpeed, fuelShooter));
+    joystick.button(2).onTrue(new InstantCommand(fuelShooter::increaseSpeed, fuelShooter));
+    joystick.button(3).onTrue(new InstantCommand(fuelShooter::decreaseSpeed, fuelShooter));
+    joystick.button(4).onTrue(new InstantCommand(fuelShooter::resetSpeed, fuelShooter));
 
     // Intake joypad bindings
     joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
@@ -76,8 +78,8 @@ public class RobotContainer {
     joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
 
     // Intake deploy joypad bindings
-    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
     joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
+    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
