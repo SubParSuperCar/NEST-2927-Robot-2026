@@ -29,7 +29,8 @@ public class RobotContainer {
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
 
-  // This double is the minimum input to start lerping the drivetrain output requests
+  // This double is the minimum input to start lerping the drivetrain output
+  // requests
   private double InputDeadband = 0.075;
 
   // This double is the sign which, when 1, negates the drivetrain output requests
@@ -41,11 +42,10 @@ public class RobotContainer {
   private final FuelShooter fuelShooter = new FuelShooter();
 
   // Setting up bindings for necessary control of the swerve drive platform
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(0.01)
       .withRotationalDeadband(0.01)
-      .withDriveRequestType(
-          DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -89,11 +89,14 @@ public class RobotContainer {
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
             () -> drive
-                .withVelocityX(curve(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive forward with negative Y
+                .withVelocityX(curve(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive forward with
+                                                                                                 // negative Y
                 .withVelocityY(
-                    curve(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with negative X (left)
+                    curve(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with negative X
+                                                                                      // (left)
                 .withRotationalRate(
-                    curve(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive counterclockwise with
+                    curve(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive counterclockwise
+                                                                                             // with
         // negative X (left)
         ));
 
@@ -116,10 +119,9 @@ public class RobotContainer {
     drivetrain.registerTelemetry(logger::telemeterize);
   }
 
-  
   public Command getAutonomousCommand() {
     return new InstantCommand(intake::deployExtend, intake)
-      .andThen(new WaitCommand(1.0))
-      .andThen(new InstantCommand(intake::deployStop, intake));
+        .andThen(new WaitCommand(1.0))
+        .andThen(new InstantCommand(intake::deployStop, intake));
   }
 }
