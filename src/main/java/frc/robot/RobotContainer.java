@@ -9,10 +9,12 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.units.measure.Velocity;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -26,7 +28,14 @@ public class RobotContainer {
   // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
-  private double InputDeadband = 0.10; // Apply a 10% deadband
+
+  // This double is the minimum input to start lerping the drivetrain output requests
+  private double InputDeadband = 0.075;
+
+  // This double is the sign which, when 1, negates the drivetrain output requests
+  // Adjust this when the robot controls are inverted and need to be negated
+  // Only set to -1 or 1
+  private double InputSign = -1;
 
   private final FuelIntake intake = new FuelIntake();
   private final FuelShooter fuelShooter = new FuelShooter();
@@ -37,13 +46,6 @@ public class RobotContainer {
       .withRotationalDeadband(0.01)
       .withDriveRequestType(
           DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-
-  /*
-   * private final SwerveRequest.SwerveDriveBrake brake = new
-   * SwerveRequest.SwerveDriveBrake();
-   * private final SwerveRequest.PointWheelsAt point = new
-   * SwerveRequest.PointWheelsAt();
-   */
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -61,7 +63,6 @@ public class RobotContainer {
 
     double scaled = (Math.abs(raw) - deadband) / (1.0 - deadband);
     return Math.copySign(scaled * scaled, raw);
-    // SmartDashboard.putNumber("Velocity", scaled);
   }
 
   private void configureBindings() {
@@ -88,11 +89,11 @@ public class RobotContainer {
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
             () -> drive
-                .withVelocityX(curve(-joystick.getLeftY(), InputDeadband) * MaxSpeed) // Drive forward with negative Y
+                .withVelocityX(curve(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive forward with negative Y
                 .withVelocityY(
-                    curve(-joystick.getLeftX(), InputDeadband) * MaxSpeed) // Drive left with negative X (left)
+                    curve(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with negative X (left)
                 .withRotationalRate(
-                    curve(-joystick.getRightX(), InputDeadband) * MaxAngularRate) // Drive counterclockwise with
+                    curve(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive counterclockwise with
         // negative X (left)
         ));
 
@@ -115,11 +116,10 @@ public class RobotContainer {
     drivetrain.registerTelemetry(logger::telemeterize);
   }
 
-  /*
-   * public Command getAutonomousCommand() {
-   * return new InstantCommand(intake::deployExtend, intake)
-   * .andThen(new WaitCommand(1.0))
-   * .andThen(new InstantCommand(intake::deployStop, intake));
-   * }
-   */
+  
+  public Command getAutonomousCommand() {
+    return new InstantCommand(intake::deployExtend, intake)
+      .andThen(new WaitCommand(1.0))
+      .andThen(new InstantCommand(intake::deployStop, intake));
+  }
 }
