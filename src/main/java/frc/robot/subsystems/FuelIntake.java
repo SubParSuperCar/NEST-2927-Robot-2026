@@ -9,8 +9,8 @@ public class FuelIntake extends SubsystemBase {
   private final TalonFX intakeMotor = new TalonFX(30, TunerConstants.kCANBus);
   private final TalonFX deployMotor = new TalonFX(31, TunerConstants.kCANBus);
 
-  private double IntakeMotorOutput = 1;
-  private double DeployMotorOutput = 1.0 / 3.0;
+  private double IntakeMotorOutput = 0.9;
+  private double DeployMotorOutput = 0.2;
 
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
 
