@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.time.Instant;
-
 import com.ctre.phoenix6.HootAutoReplay;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -13,9 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooter;
@@ -67,11 +63,11 @@ public class Robot extends TimedRobot {
     }
   }
 
-  @Override
-  public void autonomousPeriodic() {
-  }
-
   /*
+   * @Override
+   * public void autonomousPeriodic() {
+   * }
+   * 
    * @Override
    * public void autonomousExit() {
    * }
@@ -84,12 +80,12 @@ public class Robot extends TimedRobot {
     }
   }
 
-  @Override
-  public void teleopPeriodic() {
-    // LimelightHelpers.setLEDMode_ForceBlink("");
-  }
-
   /*
+   * @Override
+   * public void teleopPeriodic() {
+   * LimelightHelpers.setLEDMode_ForceBlink("");
+   * }
+   * 
    * @Override
    * public void teleopExit() {
    * }

@@ -11,14 +11,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-// import edu.wpi.first.units.measure.Velocity;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelIntake;
@@ -138,11 +137,9 @@ public class RobotContainer {
         .andThen(new WaitCommand(0.1))
         .andThen(new InstantCommand(intake::deployStop, intake))
         .alongWith(new WaitCommand(1))
-
         .andThen(drivetrain.applyRequest(
             () -> drive
                 .withVelocityX(0))
             .andThen(new InstantCommand(() -> fuelShooter.run(), fuelShooter)));
-
   }
 }
