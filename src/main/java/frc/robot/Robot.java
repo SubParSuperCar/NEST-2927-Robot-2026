@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-  
+
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   // Log and replay timestamp and joystick data
@@ -62,10 +62,8 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /* @Override
+  @Override
   public void autonomousPeriodic() {
-<<<<<<< HEAD
-=======
     // Drives backward maybe
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(
@@ -76,12 +74,11 @@ public class Robot extends TimedRobot {
             .andThen(drivetrain.applyRequest(
                 () -> drive
                     .withVelocityX(0))));
->>>>>>> 2c5ab7be30c2172fb66ceae4ddad7b6cc1c5e860
   }
 
   @Override
   public void autonomousExit() {
-  } */
+  }
 
   @Override
   public void teleopInit() {
