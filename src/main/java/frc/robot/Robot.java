@@ -8,12 +8,15 @@ import com.ctre.phoenix6.HootAutoReplay;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   @SuppressWarnings("unused")
   private final RobotContainer m_robotContainer;
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   // Log and replay timestamp and joystick data
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
@@ -54,16 +57,20 @@ public class Robot extends TimedRobot {
      */
   }
 
-  /*
-   * @Override
-   * public void autonomousPeriodic() {
-   *
-   * }
-   *
-   * @Override
-   * public void autonomousExit() {
-   * }
-   */
+  @Override
+  public void autonomousPeriodic() {
+    drivetrain.setDefaultCommand(
+        drivetrain.applyRequest(
+            () -> drive
+                .withVelocityX(0) // Drive forward with negative Y
+                .withVelocityY(1) // Drive left with negative X (left)
+                .withRotationalRate(0) // Drive counterclockwise with negative X (left)
+        ));
+  }
+
+  @Override
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
