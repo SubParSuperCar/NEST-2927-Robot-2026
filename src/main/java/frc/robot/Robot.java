@@ -62,10 +62,8 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /* @Override
+  @Override
   public void autonomousPeriodic() {
-<<<<<<< HEAD
-=======
     // Drives backward maybe
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(
@@ -76,10 +74,9 @@ public class Robot extends TimedRobot {
             .andThen(drivetrain.applyRequest(
                 () -> drive
                     .withVelocityX(0))));
->>>>>>> 2c5ab7be30c2172fb66ceae4ddad7b6cc1c5e860
   }
 
-  @Override
+  /* @Override
   public void autonomousExit() {
   } */
 
