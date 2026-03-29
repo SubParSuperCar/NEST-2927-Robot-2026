@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import com.ctre.phoenix6.HootAutoReplay;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -11,15 +13,18 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.FuelShooter;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-
+  public final FuelShooter fuelShooter = new FuelShooter();
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   // Log and replay timestamp and joystick data
@@ -64,16 +69,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // Drives backward maybe
-    drivetrain.setDefaultCommand(
-        drivetrain.applyRequest(
-            () -> drive
-                .withVelocityX(1) // Drive forward with negative Y
-        )
-            .andThen(new WaitCommand(1))
-            .andThen(drivetrain.applyRequest(
-                () -> drive
-                    .withVelocityX(0))));
   }
 
   /*

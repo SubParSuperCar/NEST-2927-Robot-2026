@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 // import edu.wpi.first.units.measure.Velocity;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -39,7 +40,7 @@ public class RobotContainer {
   private double InputSign = -1;
 
   private final FuelIntake intake = new FuelIntake();
-  private final FuelShooter fuelShooter = new FuelShooter();
+  public final FuelShooter fuelShooter = new FuelShooter();
 
   // Setting up bindings for necessary control of the swerve drive platform
   public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -90,7 +91,7 @@ public class RobotContainer {
     joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
 
     // Drivetrain negation binding
-    joystick.button(8).onChange(new InstantCommand(() -> negateDrivetrainControls()));
+    joystick.button(8).onTrue(new InstantCommand(() -> negateDrivetrainControls()));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
@@ -129,8 +130,19 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new InstantCommand(intake::deployExtend, intake)
-        .andThen(new WaitCommand(1.0))
-        .andThen(new InstantCommand(intake::deployStop, intake));
+    return drivetrain.applyRequest(
+        () -> drive
+            .withVelocityX(0.4) // Drive forward with negative Y
+    )
+        .alongWith(Commands.runOnce(intake::deployExtend, intake))
+        .andThen(new WaitCommand(0.1))
+        .andThen(new InstantCommand(intake::deployStop, intake))
+        .alongWith(new WaitCommand(1))
+
+        .andThen(drivetrain.applyRequest(
+            () -> drive
+                .withVelocityX(0))
+            .andThen(new InstantCommand(() -> fuelShooter.run(), fuelShooter)));
+
   }
 }
