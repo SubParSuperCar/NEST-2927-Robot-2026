@@ -57,7 +57,11 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private static double curve(double raw, double deadband) {
+  public void negateDrivetrainControls() {
+    InputSign = -InputSign;
+  }
+
+  private static double applyDeadband(double raw, double deadband) {
     if (Math.abs(raw) < deadband)
       return 0.0;
 
@@ -85,15 +89,18 @@ public class RobotContainer {
     joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
     joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
 
+    // Drivetrain negation binding
+    joystick.button(8).onChange(new InstantCommand(() -> negateDrivetrainControls()));
+
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
             () -> drive
-                .withVelocityX(curve(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive forward with negative Y
+                .withVelocityX(applyDeadband(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive forward with negative Y
                 .withVelocityY(
-                    curve(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with negative X (left)
+                    applyDeadband(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with negative X (left)
                 .withRotationalRate(
-                    curve(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive counterclockwise with
+                    applyDeadband(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive counterclockwise with
         // negative X (left)
         ));
 
@@ -116,7 +123,6 @@ public class RobotContainer {
     drivetrain.registerTelemetry(logger::telemeterize);
   }
 
-  
   public Command getAutonomousCommand() {
     return new InstantCommand(intake::deployExtend, intake)
       .andThen(new WaitCommand(1.0))
