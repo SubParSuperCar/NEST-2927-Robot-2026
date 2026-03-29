@@ -5,9 +5,13 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -21,6 +25,10 @@ public class Robot extends TimedRobot {
   // Log and replay timestamp and joystick data
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
       .withJoystickReplay();
+  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(0.01)
+      .withRotationalDeadband(0.01)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -56,6 +64,19 @@ public class Robot extends TimedRobot {
 
   /* @Override
   public void autonomousPeriodic() {
+<<<<<<< HEAD
+=======
+    // Drives backward maybe
+    drivetrain.setDefaultCommand(
+        drivetrain.applyRequest(
+            () -> drive
+                .withVelocityX(1) // Drive forward with negative Y
+        )
+            .andThen(new WaitCommand(1))
+            .andThen(drivetrain.applyRequest(
+                () -> drive
+                    .withVelocityX(0))));
+>>>>>>> 2c5ab7be30c2172fb66ceae4ddad7b6cc1c5e860
   }
 
   @Override
