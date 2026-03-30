@@ -29,14 +29,8 @@ public class RobotContainer {
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
   // max angular velocity
 
-  // This double is the minimum input to start lerping the drivetrain output
-  // requests
-  private double InputDeadband = 0.075;
-
-  // This double is the sign which, when 1, negates the drivetrain output requests
-  // Adjust this when the robot controls are inverted and need to be negated
-  // Only set to -1 or 1
-  private double InputSign = -1;
+  private double DriveInputDeadband = 1f / 12f;
+  private double DriveInputSign = -1;
 
   private final FuelIntake intake = new FuelIntake();
   public final FuelShooter fuelShooter = new FuelShooter();
@@ -57,57 +51,50 @@ public class RobotContainer {
     configureBindings();
   }
 
-  public void negateDrivetrainControls() {
-    InputSign = -InputSign;
+  public void negateDriveControls() {
+    DriveInputSign = -DriveInputSign;
   }
 
-  private static double applyDeadband(double raw, double deadband) {
+  private double applyDeadband(double raw, double deadband) {
+    var abs = Math.abs(raw);
     if (Math.abs(raw) < deadband)
       return 0.0;
 
-    double scaled = (Math.abs(raw) - deadband) / (1.0 - deadband);
-    return Math.copySign(scaled * scaled, raw);
+    return Math.copySign(
+        Math.pow((abs - deadband) / (1.0 - deadband), 2), raw);
   }
 
   private void configureBindings() {
+    // Deploy joypad bindings
+    joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
+    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
+
+    // Intake joypad bindings
+    joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
+    joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
+    joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+    joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
+
     // Fuel shooter joypad bindings
-    joystick.rightTrigger()
-        .whileTrue(new RunCommand(() -> fuelShooter.run(), fuelShooter));
+    joystick.rightTrigger().whileTrue(new RunCommand(() -> fuelShooter.run(), fuelShooter));
     joystick.rightTrigger().onFalse(new InstantCommand(() -> fuelShooter.stop(), fuelShooter));
 
     joystick.button(2).onTrue(new InstantCommand(fuelShooter::increaseSpeed, fuelShooter));
     joystick.button(3).onTrue(new InstantCommand(fuelShooter::decreaseSpeed, fuelShooter));
     joystick.button(4).onTrue(new InstantCommand(fuelShooter::resetSpeed, fuelShooter));
 
-    // Intake joypad bindings
-    joystick.leftBumper().whileTrue(new InstantCommand(intake::intakeOut, intake));
-    joystick.rightBumper().whileTrue(new InstantCommand(intake::intakeIn, intake));
-    joystick.leftBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
-    joystick.rightBumper().onFalse(new InstantCommand(intake::intakeStop, intake));
-
-    // Intake deploy joypad bindings
-    joystick.button(1).whileTrue(new InstantCommand(intake::deployExtend, intake));
-    joystick.button(1).onFalse(new InstantCommand(intake::deployStop, intake));
-
     // Drivetrain negation binding
-    joystick.button(8).onTrue(new InstantCommand(() -> negateDrivetrainControls()));
+    joystick.button(8).onTrue(new InstantCommand(() -> negateDriveControls()));
 
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(
             () -> drive
-                .withVelocityX(applyDeadband(joystick.getLeftY() * InputSign, InputDeadband) * MaxSpeed) // Drive
-                                                                                                         // forward with
-                                                                                                         // negative Y
+                .withVelocityX(applyDeadband(joystick.getLeftY() * DriveInputSign, DriveInputDeadband) * MaxSpeed)
                 .withVelocityY(
-                    applyDeadband(joystick.getLeftX() * InputSign, InputDeadband) * MaxSpeed) // Drive left with
-                                                                                              // negative X (left)
+                    applyDeadband(joystick.getLeftX() * DriveInputSign, DriveInputDeadband) * MaxSpeed)
                 .withRotationalRate(
-                    applyDeadband(joystick.getRightX() * InputSign, InputDeadband) * MaxAngularRate) // Drive
-                                                                                                     // counterclockwise
-                                                                                                     // with
-        // negative X (left)
-        ));
+                    applyDeadband(joystick.getRightX() * DriveInputSign, DriveInputDeadband) * MaxAngularRate)));
 
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.
@@ -122,24 +109,18 @@ public class RobotContainer {
     joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
     joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-    // Reset the field-centric heading on left bumper press.
-    // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-
     drivetrain.registerTelemetry(logger::telemeterize);
   }
 
   public Command getAutonomousCommand() {
     return drivetrain.applyRequest(
-        () -> drive
-            .withVelocityX(0.4) // Drive forward with negative Y
-    )
+        () -> drive.withVelocityX(1))
         .alongWith(Commands.runOnce(intake::deployExtend, intake))
-        .andThen(new WaitCommand(0.1))
+        .andThen(new WaitCommand(1))
         .andThen(new InstantCommand(intake::deployStop, intake))
         .alongWith(new WaitCommand(1))
         .andThen(drivetrain.applyRequest(
-            () -> drive
-                .withVelocityX(0))
+            () -> drive.withVelocityX(0))
             .andThen(new InstantCommand(() -> fuelShooter.run(), fuelShooter)));
   }
 }
