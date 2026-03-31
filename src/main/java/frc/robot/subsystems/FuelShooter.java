@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
 
-import frc.robot.generated.TunerConstants;
-
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.generated.TunerConstants;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class FuelShooter extends SubsystemBase {
@@ -20,12 +18,10 @@ public class FuelShooter extends SubsystemBase {
   private final double ShooterMotorOutputIncrement = 1f / 16f;
 
   private final double KickerMotorOutput = 5f / 6f;
-  private double ShooterMotorOutput = ShooterMotorOutputDefault;
-
   private final TalonFX[] kickerMotors = { kickerMotor1, kickerMotor2, };
   private final TalonFX[] shooterMotors = { shooterMotor1, shooterMotor2 };
-
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
+  private double ShooterMotorOutput = ShooterMotorOutputDefault;
 
   private void setOutputAll(double output) {
     var kickerRequest = motorRequest.withOutput(output * KickerMotorOutput);
