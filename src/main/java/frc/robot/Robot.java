@@ -16,6 +16,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooter;
 
+@SuppressWarnings("unused")
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
    * @Override
    * public void autonomousPeriodic() {
    * }
-   * 
+   *
    * @Override
    * public void autonomousExit() {
    * }
@@ -85,7 +86,7 @@ public class Robot extends TimedRobot {
    * public void teleopPeriodic() {
    * LimelightHelpers.setLEDMode_ForceBlink("");
    * }
-   * 
+   *
    * @Override
    * public void teleopExit() {
    * }

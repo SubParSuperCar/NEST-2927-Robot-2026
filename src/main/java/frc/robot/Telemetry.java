@@ -63,6 +63,7 @@ public class Telemetry {
   private final StringPublisher fieldTypePub = table.getStringTopic(".type").publish();
 
   // Mechanisms to represent the swerve module states
+  @SuppressWarnings("resource")
   private final Mechanism2d[] m_moduleMechanisms = new Mechanism2d[] {
       new Mechanism2d(1, 1), new Mechanism2d(1, 1), new Mechanism2d(1, 1), new Mechanism2d(1, 1),
   };

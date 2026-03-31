@@ -7,18 +7,19 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class FuelShooter extends SubsystemBase {
   private final TalonFX kickerMotor1 = new TalonFX(29, TunerConstants.kCANBus);
   private final TalonFX kickerMotor2 = new TalonFX(28, TunerConstants.kCANBus);
   private final TalonFX shooterMotor1 = new TalonFX(3, TunerConstants.kCANBus);
   private final TalonFX shooterMotor2 = new TalonFX(26, TunerConstants.kCANBus);
 
-  private double ShooterMotorOutputDefault = 11f / 16f;
-  private double ShooterMotorOutputMin = 5f / 8f;
-  private double ShooterMotorOutputMax = 7f / 8f;
-  private double ShooterMotorOutputIncrement = 1f / 16f;
+  private final double ShooterMotorOutputDefault = 11f / 16f;
+  private final double ShooterMotorOutputMin = 5f / 8f;
+  private final double ShooterMotorOutputMax = 7f / 8f;
+  private final double ShooterMotorOutputIncrement = 1f / 16f;
 
-  private double KickerMotorOutput = 5f / 6f;
+  private final double KickerMotorOutput = 5f / 6f;
   private double ShooterMotorOutput = ShooterMotorOutputDefault;
 
   private final TalonFX[] kickerMotors = { kickerMotor1, kickerMotor2, };
