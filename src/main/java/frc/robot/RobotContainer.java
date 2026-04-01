@@ -20,10 +20,7 @@ import static edu.wpi.first.units.Units.*;
 public class RobotContainer {
   public final FuelShooter fuelShooter = new FuelShooter();
   // Setting up bindings for necessary control of the swerve drive platform
-  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(0.01)
-      .withRotationalDeadband(0.01)
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(0.01).withRotationalDeadband(0.01).withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   // max angular velocity
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   private final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -46,11 +43,9 @@ public class RobotContainer {
 
   private double applyDeadband(double raw, @SuppressWarnings("SameParameterValue") double deadband) {
     var abs = Math.abs(raw);
-    if (Math.abs(raw) < deadband)
-      return 0.0;
+    if (Math.abs(raw) < deadband) return 0.0;
 
-    return Math.copySign(
-        Math.pow((abs - deadband) / (1.0 - deadband), 2), raw);
+    return Math.copySign(Math.pow((abs - deadband) / (1.0 - deadband), 2), raw);
   }
 
   private void configureBindings() {
@@ -76,20 +71,13 @@ public class RobotContainer {
     joystick.button(8).onTrue(new InstantCommand(this::negateDriveControls));
 
     drivetrain.setDefaultCommand(
-        // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(
-            () -> drive
-                .withVelocityX(applyDeadband(joystick.getLeftY() * DriveInputSign, DriveInputDeadband) * MaxSpeed)
-                .withVelocityY(
-                    applyDeadband(joystick.getLeftX() * DriveInputSign, DriveInputDeadband) * MaxSpeed)
-                .withRotationalRate(
-                    applyDeadband(joystick.getRightX() * DriveInputSign, DriveInputDeadband) * MaxAngularRate)));
+      // Drivetrain will execute this command periodically
+      drivetrain.applyRequest(() -> drive.withVelocityX(applyDeadband(joystick.getLeftY() * DriveInputSign, DriveInputDeadband) * MaxSpeed).withVelocityY(applyDeadband(joystick.getLeftX() * DriveInputSign, DriveInputDeadband) * MaxSpeed).withRotationalRate(applyDeadband(joystick.getRightX() * DriveInputSign, DriveInputDeadband) * MaxAngularRate)));
 
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.
     final var idle = new SwerveRequest.Idle();
-    RobotModeTriggers.disabled()
-        .whileTrue(drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+    RobotModeTriggers.disabled().whileTrue(drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
@@ -102,14 +90,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return drivetrain.applyRequest(
-        () -> drive.withVelocityX(1))
-        .alongWith(Commands.runOnce(intake::deployExtend, intake))
-        .andThen(new WaitCommand(1))
-        .andThen(new InstantCommand(intake::deployStop, intake))
-        .alongWith(new WaitCommand(1))
-        .andThen(drivetrain.applyRequest(
-            () -> drive.withVelocityX(0))
-            .andThen(new InstantCommand(fuelShooter::run, fuelShooter)));
+    return drivetrain.applyRequest(() -> drive.withVelocityX(1)).alongWith(Commands.runOnce(intake::deployExtend, intake)).andThen(new WaitCommand(1)).andThen(new InstantCommand(intake::deployStop, intake)).alongWith(new WaitCommand(1)).andThen(drivetrain.applyRequest(() -> drive.withVelocityX(0)).andThen(new InstantCommand(fuelShooter::run, fuelShooter)));
   }
 }

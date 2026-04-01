@@ -18,8 +18,8 @@ public class FuelShooter extends SubsystemBase {
   private final double ShooterMotorOutputIncrement = 1f / 16f;
 
   private final double KickerMotorOutput = 5f / 6f;
-  private final TalonFX[] kickerMotors = { kickerMotor1, kickerMotor2, };
-  private final TalonFX[] shooterMotors = { shooterMotor1, shooterMotor2 };
+  private final TalonFX[] kickerMotors = {kickerMotor1, kickerMotor2,};
+  private final TalonFX[] shooterMotors = {shooterMotor1, shooterMotor2};
   private final DutyCycleOut motorRequest = new DutyCycleOut(0);
   private double ShooterMotorOutput = ShooterMotorOutputDefault;
 
@@ -45,15 +45,11 @@ public class FuelShooter extends SubsystemBase {
   }
 
   public void increaseSpeed() {
-    ShooterMotorOutput = Math.min(
-        ShooterMotorOutputMax,
-        ShooterMotorOutput + ShooterMotorOutputIncrement);
+    ShooterMotorOutput = Math.min(ShooterMotorOutputMax, ShooterMotorOutput + ShooterMotorOutputIncrement);
   }
 
   public void decreaseSpeed() {
-    ShooterMotorOutput = Math.max(
-        ShooterMotorOutputMin,
-        ShooterMotorOutput - ShooterMotorOutputIncrement);
+    ShooterMotorOutput = Math.max(ShooterMotorOutputMin, ShooterMotorOutput - ShooterMotorOutputIncrement);
   }
 
   public void resetSpeed() {
