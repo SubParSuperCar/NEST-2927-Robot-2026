@@ -20,10 +20,13 @@ import frc.robot.subsystems.FuelShooter;
 public class Robot extends TimedRobot {
   public final FuelShooter fuelShooter = new FuelShooter();
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(0.01).withRotationalDeadband(0.01).withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+  public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric().withDeadband(0.01)
+      .withRotationalDeadband(0.01).withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for
+                                                                                            // drive motors
   private final RobotContainer m_robotContainer;
   // Log and replay timestamp and joystick data
-  private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay().withJoystickReplay();
+  private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
+      .withJoystickReplay();
   private Command m_autonomousCommand;
 
   public Robot() {
